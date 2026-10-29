@@ -1,0 +1,50 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Preparing build..."
+      - if [ -z "$AWS_ENDPOINT_URL" ]; then unset AWS_ENDPOINT_URL; fi
+      - export IMAGE_TAG=$(date +%Y%m%d%H%M%S)
+      - export REGISTRY=$(echo $ECR_REPO_URL | cut -d/ -f1)
+      - echo "Image tag is $IMAGE_TAG"
+      - echo "Registry is $REGISTRY"
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY
+
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker build -t $ECR_REPO_URL:$IMAGE_TAG -t $ECR_REPO_URL:latest .
+
+  post_build:
+    commands:
+      - echo "Pushing image to ECR..."
+      - docker push $ECR_REPO_URL:$IMAGE_TAG
+      - docker push $ECR_REPO_URL:latest
+      - echo "Registering new task definition..."
+      - aws ecs describe-task-definition --task-definition $TASK_FAMILY --query taskDefinition --output json > taskdef.json
+      - |
+        jq --arg IMG "$ECR_REPO_URL:$IMAGE_TAG" '{
+          family: .family,
+          networkMode: .networkMode,
+          requiresCompatibilities: .requiresCompatibilities,
+          cpu: .cpu,
+          memory: .memory,
+          executionRoleArn: .executionRoleArn,
+          containerDefinitions: (.containerDefinitions | map(.image = $IMG))
+        }' taskdef.json > newtaskdef.json
+      - aws ecs register-task-definition --cli-input-json file://newtaskdef.json
+      - echo "Updating ECS service..."
+      - aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --task-definition $TASK_FAMILY
+      - echo "Deployment triggered."
+
+artifacts:
+  files:
+    - newtaskdef.json
+
+
+
+
+
+
+    

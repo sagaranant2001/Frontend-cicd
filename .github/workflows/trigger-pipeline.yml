@@ -1,0 +1,34 @@
+name: Trigger Floci CodePipeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS for Floci
+        run: |
+          aws configure set aws_access_key_id test
+          aws configure set aws_secret_access_key test
+          aws configure set default.region us-east-1
+
+      - name: Create source.zip
+        run: |
+          tar -a -c -f source.zip frontend Dockerfile nginx.conf .dockerignore buildspec.yml
+
+      - name: Upload source.zip to Floci S3 via ngrok
+        env:
+          FLOCI_ENDPOINT: ${{ secrets.FLOCI_ENDPOINT }}
+        run: |
+          aws --endpoint-url $FLOCI_ENDPOINT s3 cp source.zip s3://frontend-pipeline-source/source.zip
+
+      - name: Start CodePipeline directly
+        env:
+          FLOCI_ENDPOINT: ${{ secrets.FLOCI_ENDPOINT }}
+        run: |
+          aws --endpoint-url $FLOCI_ENDPOINT codepipeline start-pipeline-execution --name frontend-pipeline

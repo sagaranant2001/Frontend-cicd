@@ -1,0 +1,12 @@
+
+infra
+scripts
+.git
+.gitignore
+README.md
+Makefile
+docker-compose.yml
+buildspec.yml
+*.tfstate
+*.tfstate.*
+.terraform

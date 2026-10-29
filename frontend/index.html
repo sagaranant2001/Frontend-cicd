@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Taj Hotel</title>
+  <style>
+    :root {
+      --ink: #1c2733;
+      --sea: #1f6f8b;
+      --brick: #a63d2f;
+      --paper: #f6f4f1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.7;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      letter-spacing: 1px;
+      color: var(--brick);
+    }
+    .tagline {
+      margin: 8px 0 0;
+      color: var(--sea);
+      font-style: italic;
+    }
+    /* Put your photo in the same folder and name it taj-hotel.jpg */
+    .hero {
+      max-width: 1000px;
+      height: clamp(240px, 45vw, 460px);
+      margin: 20px auto;
+      border-radius: 10px;
+      background:
+        url("taj-hotel.jpg") center / cover no-repeat,
+        linear-gradient(180deg, #7fb3c8 0%, #1f6f8b 60%, #14465a 100%);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 10px 20px 50px;
+      font-size: 1.1rem;
+    }
+    p { margin: 0 0 1.4em; }
+    mark {
+      background: #f3dfa2;
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+    strong { color: var(--brick); }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #6b7683;
+      border-top: 1px solid #ddd8d0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Taj Hotel</h1>
+    <p class="tagline">Mumbai's landmark by the sea</p>
+  </header>
+
+  <div class="hero" role="img" aria-label="The Taj Mahal Palace Hotel, Mumbai"></div>
+
+  <main>
+    <p>
+      The <strong>Taj Mahal Palace Hotel</strong> in Mumbai is one of India's most celebrated
+      landmarks. Founded by the industrialist <mark>Jamsetji Tata</mark>, it opened its doors in
+      <mark>December 1903</mark>, which makes it more than a century old. The hotel stands right
+      beside the <mark>Gateway of India</mark> and faces the Arabian Sea, so guests enjoy some of
+      the best harbour views in the city. Its <mark>Indo-Saracenic architecture</mark> blends
+      Indian, Islamic and Victorian styles, and its famous dome, grand arches and stately
+      corridors make it instantly recognisable. Walking through its lobby feels like stepping
+      into a living piece of history. For many travellers, the Taj is a symbol of Mumbai itself.
+    </p>
+
+    <p>
+      Inside, the hotel is known for its <strong>elegant rooms and suites</strong>, award-winning
+      restaurants and warm Taj hospitality. It is part of the Taj group, run by IHCL, and over the
+      years it has welcomed royalty, world leaders, artists and film stars. In
+      <mark>November 2008</mark> the hotel was badly affected by the terror attacks on Mumbai.
+      After careful restoration it reopened the same year, and it has since become a symbol of
+      <mark>courage and resilience</mark>. Today the Taj remains a top choice for visitors who
+      want history, comfort and a memorable stay by the sea.
+    </p>
+  </main>
+
+  <footer>The Taj Hotel &middot; Mumbai, India</footer>
+
+</body>
+</html>
